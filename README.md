@@ -9,6 +9,11 @@ Various images for development and testing
 
 ## Images
 
+### cimg-base-volta
+[GitHub Container Registry](https://github.com/sitateru/docker-images/pkgs/container/cimg-base-volta)
+- Based on [cimg/base](https://hub.docker.com/r/cimg/base)
+- Installed [Volta](https://volta.sh/)
+
 ### cimg-ruby-volta
 [GitHub Container Registry](https://github.com/sitateru/docker-images/pkgs/container/cimg-ruby-volta)
 - Based on [cimg/ruby](https://hub.docker.com/r/cimg/ruby)
