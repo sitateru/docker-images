@@ -19,6 +19,11 @@ Various images for development and testing
 - Based on [cimg/ruby](https://hub.docker.com/r/cimg/ruby)
 - Installed [Volta](https://volta.sh/)
 
+### elasticsearch-icu-kuromoji
+[GitHub Container Registry](https://github.com/orgs/sitateru/packages/container/package/elasticsearch-icu-kuromoji)
+- Based on [docker.elastic.co/elasticsearch/elasticsearch](https://www.docker.elastic.co/r/elasticsearch)
+- Added icu & kuromoji plugin
+
 ## Contributing
 
 ### Report a bug/problem
