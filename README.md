@@ -24,6 +24,11 @@ Various images for development and testing
 - Based on [docker.elastic.co/elasticsearch/elasticsearch](https://www.docker.elastic.co/r/elasticsearch)
 - Added icu & kuromoji plugin
 
+### opensearch-icu-kuromoji
+[GitHub Container Registry](https://github.com/orgs/sitateru/packages/container/package/opensearch-icu-kuromoji)
+- Based on [opensearchproject/opensearch](https://hub.docker.com/r/opensearchproject/opensearch)
+- Added icu & kuromoji plugin
+
 ## Contributing
 
 ### Report a bug/problem
