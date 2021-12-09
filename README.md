@@ -19,6 +19,12 @@ Various images for development and testing
 - Based on [cimg/ruby](https://hub.docker.com/r/cimg/ruby)
 - Installed [Volta](https://volta.sh/)
 
+### mysql-utf8mb4
+[GitHub Container Registry](https://github.com/sitateru/docker-images/pkgs/container/mysql-utfmb4)
+- Based on [mysql](https://hub.docker.com/_/mysql/)
+- collation-server = `utf8mb4_bin` or `utf8mb4_0900_ai_ci`
+- default_authentication_plugin = `mysql_native_password`
+
 ### elasticsearch-icu-kuromoji
 [GitHub Container Registry](https://github.com/orgs/sitateru/packages/container/package/elasticsearch-icu-kuromoji)
 - Based on [docker.elastic.co/elasticsearch/elasticsearch](https://www.docker.elastic.co/r/elasticsearch)
