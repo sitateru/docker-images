@@ -30,6 +30,11 @@ Various images for development and testing
 - collation-server = `utf8mb4_bin` or `utf8mb4_0900_ai_ci`
 - default_authentication_plugin = `mysql_native_password`
 
+### nginx-gcsfuse
+[GitHub Packages](https://github.com/orgs/sitateru/packages/container/package/nginx-gcsfuse)
+- Based on [nginx](https://hub.docker.com/_/nginx)
+- Installed [gcsfuse](https://github.com/GoogleCloudPlatform/gcsfuse)
+
 ### opensearch-icu-kuromoji
 [GitHub Packages](https://github.com/orgs/sitateru/packages/container/package/opensearch-icu-kuromoji)
 - Based on [opensearchproject/opensearch](https://hub.docker.com/r/opensearchproject/opensearch)
