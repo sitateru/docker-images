@@ -6,6 +6,7 @@ IMAGE_OWNER='sitateru'
 DIR="${*:$#}"
 LATEST=
 CACHE=
+PLATFORM='linux/amd64,linux/arm64'
 
 function usage {
   cat <<EOM
@@ -13,18 +14,22 @@ Usage: $(basename "$0") [OPTION] [DIR]
   -h  Display help
   -l  Add 'latest' tag
   -n  Build without cache
+  -p  Platform (default: linux/amd64,linux/arm64)
 EOM
 
   exit 2
 }
 
-while getopts "hln" optKey; do
+while getopts "hlnp:" optKey; do
   case "$optKey" in
     l)
       LATEST=',latest'
       ;;
     n)
       CACHE='--no-cache'
+      ;;
+    p)
+      PLATFORM=$OPTARG
       ;;
     '-h'|'--help'|* )
       usage
@@ -43,8 +48,9 @@ if [ ! -d "$DIR" -o -z "$IMAGE_NAME" -o -z "$TAG" ]; then
 fi
 
 echo 'build and push'
-echo "  image:   $IMAGE_NAME"
-echo "  tag:     $TAG$LATEST"
+echo "  image:    $IMAGE_NAME"
+echo "  tag:      $TAG$LATEST"
+echo "  platform: $PLATFORM"
 
 function publish_ghcr {
   echo $GITHUB_TOKEN_GHCR | docker login ghcr.io -u $IMAGE_OWNER --password-stdin
@@ -56,11 +62,7 @@ function publish_ghcr {
     IMAGE_LATEST_GHCR="$IMAGE_GHCR:latest"
     BUILD_LATEST_GHCR="-t $IMAGE_LATEST_GHCR"
   fi
-  docker build $CACHE -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR $DIR
-  docker push $IMAGE_GHCR:$TAG
-  if [ "$LATEST" ]; then
-    docker push $IMAGE_LATEST_GHCR
-  fi
+  docker buildx build --push $CACHE --platform $PLATFORM -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR $DIR
 }
 
 publish_ghcr
