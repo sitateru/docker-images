@@ -17,8 +17,25 @@ Usage: $(basename "$0") [OPTION] [DIR]
   -p  Platform (default: linux/amd64,linux/arm64)
 EOM
 
-  exit 2
+  exit $1
 }
+
+function publish_ghcr {
+  echo $GITHUB_TOKEN_GHCR | docker login ghcr.io -u $IMAGE_OWNER --password-stdin
+  if [ $? -ne 0 ]; then
+    echo 'ghcr.io login failed!'
+    exit 1
+  fi
+  if [ "$LATEST" ]; then
+    BUILD_LATEST_GHCR="-t $IMAGE_GHCR:latest"
+  fi
+  docker buildx build --push $CACHE --platform $PLATFORM -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR $DIR
+  if [ $? -ne 0 ]; then
+    echo 'build&push failed!'
+    exit 1
+  fi
+}
+
 
 while getopts "hlnp:" optKey; do
   case "$optKey" in
@@ -32,7 +49,7 @@ while getopts "hlnp:" optKey; do
       PLATFORM=$OPTARG
       ;;
     '-h'|'--help'|* )
-      usage
+      usage 0
       ;;
   esac
 done
@@ -44,26 +61,13 @@ IMAGE_GHCR="ghcr.io/$IMAGE_OWNER/$IMAGE_NAME"
 
 if [ ! -d "$DIR" -o -z "$IMAGE_NAME" -o -z "$TAG" ]; then
   echo 'Specify build directory!'
-  exit 1
+  usage 1
 fi
 
 echo 'build and push'
 echo "  image:    $IMAGE_NAME"
 echo "  tag:      $TAG$LATEST"
 echo "  platform: $PLATFORM"
-
-function publish_ghcr {
-  echo $GITHUB_TOKEN_GHCR | docker login ghcr.io -u $IMAGE_OWNER --password-stdin
-  if [ $? -ne 0 ]; then
-    echo 'ghcr.io login failed!'
-    exit 1
-  fi
-  if [ "$LATEST" ]; then
-    IMAGE_LATEST_GHCR="$IMAGE_GHCR:latest"
-    BUILD_LATEST_GHCR="-t $IMAGE_LATEST_GHCR"
-  fi
-  docker buildx build --push $CACHE --platform $PLATFORM -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR $DIR
-}
 
 publish_ghcr
 
