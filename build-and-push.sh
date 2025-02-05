@@ -30,6 +30,8 @@ function publish_ghcr {
     BUILD_LATEST_GHCR="-t $IMAGE_GHCR:latest"
   fi
   docker buildx build --push $CACHE --platform $PLATFORM -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR $DIR
+  # for Rancher Desktop, uncomment the following line
+  # nerdctl build $CACHE --platform $PLATFORM -t $IMAGE_GHCR:$TAG $BUILD_LATEST_GHCR --output type=image,name=$IMAGE_GHCR,push=true $DIR
   if [ $? -ne 0 ]; then
     echo 'build&push failed!'
     exit 1
